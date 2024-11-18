@@ -1,4 +1,5 @@
-﻿using AlgoritmosGrafos.Entities;
+﻿using AlgoritmosGrafos.Entidades;
+using ModelosDeGrafos.Modelos;
 
 namespace AlgoritmosGrafos
 {
@@ -7,104 +8,100 @@ namespace AlgoritmosGrafos
         static void Main(string[] args)
         {
             Console.Write("Insira o número de vértices: ");
-            int numVertices;
-            while (!int.TryParse(Console.ReadLine(), out numVertices) || numVertices <= 0)
+            int quantidadeVertices;
+            while (!int.TryParse(Console.ReadLine(), out quantidadeVertices) || quantidadeVertices <= 0)
             {
                 Console.WriteLine("Por favor, insira um número inteiro positivo válido para o número de vértices.");
                 Console.Write("Insira o número de vértices: ");
             }
 
-            var GraphEntity = new GraphEntity(numVertices);
-            var vertices = new VertexEntity[numVertices];
+            var grafo = new Grafo(quantidadeVertices);
+            var vertices = new Vertice[quantidadeVertices];
+            var pesoPadrao = 1;
 
-            var defaultWeight = 1;
-            for (int i = 0; i < numVertices; i++)
+            for (int i = 0; i < quantidadeVertices; i++)
             {
-                var value = ((char)('A' + i)).ToString();
-                var VertexEntity = new VertexEntity(i + 1, value, defaultWeight, value);
-                GraphEntity.AddVertex(VertexEntity);
-                vertices[i] = VertexEntity;
+                var valor = ((char)('A' + i)).ToString();
+                var vertice = new Vertice(i + 1, valor, pesoPadrao, valor);
+                grafo.AdicionarVertice(vertice);
+                vertices[i] = vertice;
             }
 
             while (true)
             {
-                Console.WriteLine("\nVocê gostaria de:");
-                Console.WriteLine("\n (1) Adicionar uma aresta?");
-                Console.WriteLine("\n (2) Remover uma aresta?");
-                Console.WriteLine("\n (3) Adicionar um rótulo ao vértice?");
-                Console.WriteLine("\n (4) Adicionar peso ao vértice?");
-                Console.WriteLine("\n (5) Adicionar rótulo à aresta?");
-                Console.WriteLine("\n (6) Adicionar peso à aresta?");
-                Console.WriteLine("\n");
-                string action = Console.ReadLine();
+                Console.WriteLine("\nEscolha uma ação:");
+                Console.WriteLine(" (1) Adicionar uma aresta");
+                Console.WriteLine(" (2) Remover uma aresta");
+                Console.WriteLine(" (3) Adicionar rótulo ao vértice");
+                Console.WriteLine(" (4) Adicionar peso ao vértice");
+                Console.WriteLine(" (5) Adicionar rótulo à aresta");
+                Console.WriteLine(" (6) Adicionar peso à aresta");
+                Console.WriteLine();
 
-                switch (action)
+                string acao = Console.ReadLine();
+                switch (acao)
                 {
                     case "1":
-                        AddEdge(GraphEntity);
+                        AdicionarAresta(grafo);
                         break;
                     case "2":
-                        RemoveEdge(GraphEntity);
+                        RemoverAresta(grafo);
                         break;
                     case "3":
-                        AddVertexLabel(GraphEntity);
+                        AdicionarRotuloVertice(grafo);
                         break;
                     case "4":
-                        AddVertexWeight(GraphEntity);
+                        AdicionarPesoVertice(grafo);
                         break;
                     case "5":
-                        AddEdgeLabel(GraphEntity);
+                        AdicionarRotuloAresta(grafo);
                         break;
                     case "6":
-                        AddEdgeWeight(GraphEntity);
+                        AdicionarPesoAresta(grafo);
                         break;
                     default:
-                        // Não fazer nada
+                        Console.WriteLine("Opção inválida.");
                         break;
                 }
 
-                GraphEntity.PrintAdjacencyMatrix();
-                GraphEntity.PrintAdjacencyList();
+                grafo.ImprimirMatrizAdjacencia();
+                grafo.ImprimirListaAdjacencia();
             }
         }
 
-        static void AddEdge(GraphEntity GraphEntity)
+        static void AdicionarAresta(Grafo grafo)
         {
             Console.Write("Insira o ID do vértice de origem: ");
-            int sourceId = int.Parse(Console.ReadLine());
-
+            int idOrigem = int.Parse(Console.ReadLine());
             Console.Write("Insira o ID do vértice de destino: ");
-            int targetId = int.Parse(Console.ReadLine());
-
+            int idDestino = int.Parse(Console.ReadLine());
             Console.Write("Insira o peso: ");
-            int weight = int.Parse(Console.ReadLine());
+            int peso = int.Parse(Console.ReadLine());
 
-            GraphEntity.Connect(sourceId, targetId, weight);
+            grafo.Conectar(idOrigem, idDestino, peso);
         }
 
-        static void RemoveEdge(GraphEntity GraphEntity)
+        static void RemoverAresta(Grafo grafo)
         {
             Console.Write("Insira o ID do vértice de origem: ");
-            int sourceId = int.Parse(Console.ReadLine());
-
+            int idOrigem = int.Parse(Console.ReadLine());
             Console.Write("Insira o ID do vértice de destino: ");
-            int targetId = int.Parse(Console.ReadLine());
+            int idDestino = int.Parse(Console.ReadLine());
 
-            GraphEntity.Disconnect(sourceId, targetId);
+            grafo.Desconectar(idOrigem, idDestino);
         }
 
-        static void AddVertexLabel(GraphEntity GraphEntity)
+        static void AdicionarRotuloVertice(Grafo grafo)
         {
             Console.Write("Insira o ID do vértice: ");
-            int vertexId = int.Parse(Console.ReadLine());
-            var VertexEntity = GraphEntity.GetVertexById(vertexId);
+            int idVertice = int.Parse(Console.ReadLine());
+            var vertice = grafo.ObterVerticePorId(idVertice);
 
-            if (VertexEntity != null)
+            if (vertice != null)
             {
                 Console.Write("Insira o rótulo do vértice: ");
-                string label = Console.ReadLine();
-
-                VertexEntity.SetLabel(label);
+                string rotulo = Console.ReadLine();
+                vertice.DefinirRotulo(rotulo);
             }
             else
             {
@@ -112,18 +109,17 @@ namespace AlgoritmosGrafos
             }
         }
 
-        static void AddVertexWeight(GraphEntity GraphEntity)
+        static void AdicionarPesoVertice(Grafo grafo)
         {
             Console.Write("Insira o ID do vértice: ");
-            int vertexId = int.Parse(Console.ReadLine());
-            var VertexEntity = GraphEntity.GetVertexById(vertexId);
+            int idVertice = int.Parse(Console.ReadLine());
+            var vertice = grafo.ObterVerticePorId(idVertice);
 
-            if (VertexEntity != null)
+            if (vertice != null)
             {
                 Console.Write("Insira o peso do vértice: ");
-                int weight = int.Parse(Console.ReadLine());
-
-                VertexEntity.SetWeight(weight);
+                int peso = int.Parse(Console.ReadLine());
+                vertice.DefinirPeso(peso);
             }
             else
             {
@@ -131,23 +127,21 @@ namespace AlgoritmosGrafos
             }
         }
 
-        static void AddEdgeLabel(GraphEntity GraphEntity)
+        static void AdicionarRotuloAresta(Grafo grafo)
         {
             Console.Write("Insira o ID do vértice de origem: ");
-            int sourceVertexId = int.Parse(Console.ReadLine());
-
+            int idOrigem = int.Parse(Console.ReadLine());
             Console.Write("Insira o ID do vértice de destino: ");
-            int targetVertexId = int.Parse(Console.ReadLine());
+            int idDestino = int.Parse(Console.ReadLine());
 
-            var edgeIdentifier = sourceVertexId + "_" + targetVertexId;
-            var EdgeEntity = GraphEntity.GetEdgeByIdentifier(edgeIdentifier);
+            var identificadorAresta = idOrigem + "_" + idDestino;
+            var aresta = grafo.ObterArestaPorIdentificador(identificadorAresta);
 
-            if (EdgeEntity != null)
+            if (aresta != null)
             {
                 Console.Write("Insira o rótulo da aresta: ");
-                string label = Console.ReadLine();
-
-                EdgeEntity.SetLabel(label);
+                string rotulo = Console.ReadLine();
+                aresta.DefinirRotulo(rotulo);
             }
             else
             {
@@ -155,23 +149,21 @@ namespace AlgoritmosGrafos
             }
         }
 
-        static void AddEdgeWeight(GraphEntity GraphEntity)
+        static void AdicionarPesoAresta(Grafo grafo)
         {
             Console.Write("Insira o ID do vértice de origem: ");
-            int sourceVertexId = int.Parse(Console.ReadLine());
-
+            int idOrigem = int.Parse(Console.ReadLine());
             Console.Write("Insira o ID do vértice de destino: ");
-            int targetVertexId = int.Parse(Console.ReadLine());
+            int idDestino = int.Parse(Console.ReadLine());
 
-            var edgeIdentifier = sourceVertexId + "_" + targetVertexId;
-            var EdgeEntity = GraphEntity.GetEdgeByIdentifier(edgeIdentifier);
+            var identificadorAresta = idOrigem + "_" + idDestino;
+            var aresta = grafo.ObterArestaPorIdentificador(identificadorAresta);
 
-            if (EdgeEntity != null)
+            if (aresta != null)
             {
                 Console.Write("Insira o peso da aresta: ");
-                int weight = int.Parse(Console.ReadLine());
-
-                EdgeEntity.SetWeight(weight);
+                int peso = int.Parse(Console.ReadLine());
+                aresta.DefinirPeso(peso);
             }
             else
             {
