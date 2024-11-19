@@ -36,7 +36,17 @@ namespace AlgoritmosGrafos
                 Console.WriteLine(" (4) Adicionar peso ao vértice");
                 Console.WriteLine(" (5) Adicionar rótulo à aresta");
                 Console.WriteLine(" (6) Adicionar peso à aresta");
-                Console.WriteLine();
+                Console.WriteLine(" (7) Adjacencia entre vertices");
+                Console.WriteLine(" (8) Vizinhanca do vertice");
+                Console.WriteLine(" (9) Grau do vertice");
+                Console.WriteLine(" (10)Grau regular");
+                Console.WriteLine(" (11)Grafo conexo");
+                Console.WriteLine(" (12)Grafo aciclico");
+                Console.WriteLine(" (13)Grafo euleriano");
+                Console.WriteLine(" (14)Busca em profundidade");
+                Console.WriteLine(" (15)Busca em largura");
+                Console.WriteLine(" (16)Calcular a menor distancia de uma origem para todos os outros vertices ");
+                Console.WriteLine("Calcular a menor distancia de todos para todos");
 
                 string acao = Console.ReadLine();
                 switch (acao)
@@ -58,6 +68,14 @@ namespace AlgoritmosGrafos
                         break;
                     case "6":
                         AdicionarPesoAresta(grafo);
+                        break;
+                    case "7":
+
+                        break;
+                    case "8":
+                        break;
+
+                    case "9":
                         break;
                     default:
                         Console.WriteLine("Opção inválida.");
