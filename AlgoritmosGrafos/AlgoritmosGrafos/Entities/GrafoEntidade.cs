@@ -119,5 +119,30 @@ namespace ModelosDeGrafos.Modelos
                 Console.WriteLine();
             }
         }
+
+
+        public int ObterGrauVertice(int idVertice)
+        {
+            if (!ListaDeVertices.ContainsKey(idVertice))
+            {
+                throw new ArgumentException("O vértice informado não existe no grafo.");
+            }
+
+            // Para grafos direcionados:
+            int grauSaida = listaAdjacencia[idVertice].Count;
+            int grauEntrada = 0;
+
+            foreach (var adjacencia in listaAdjacencia)
+            {
+                if (adjacencia.Value.Contains(idVertice))
+                {
+                    grauEntrada++;
+                }
+            }
+
+            // Retorna o grau total para grafos não direcionados:
+            return grauSaida + grauEntrada;
+        }
     }
 }
+
