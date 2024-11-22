@@ -29,24 +29,21 @@ namespace AlgoritmosGrafos
 
             while (true)
             {
-                Console.WriteLine("\nEscolha uma ação:");
-                Console.WriteLine(" (1) Adicionar uma aresta");
-                Console.WriteLine(" (2) Remover uma aresta");
-                Console.WriteLine(" (3) Adicionar rótulo ao vértice");
-                Console.WriteLine(" (4) Adicionar peso ao vértice");
-                Console.WriteLine(" (5) Adicionar rótulo à aresta");
-                Console.WriteLine(" (6) Adicionar peso à aresta");
-                Console.WriteLine(" (7) Adjacencia entre vertices");
-                Console.WriteLine(" (8) Vizinhanca do vertice");
-                Console.WriteLine(" (9) Grau do vertice");
-                Console.WriteLine(" (10)Grau regular");
-                Console.WriteLine(" (11)Grafo conexo");
-                Console.WriteLine(" (12)Grafo aciclico");
-                Console.WriteLine(" (13)Grafo euleriano");
-                Console.WriteLine(" (14)Busca em profundidade");
-                Console.WriteLine(" (15)Busca em largura");
-                Console.WriteLine(" (16)Calcular a menor distancia de uma origem para todos os outros vertices ");
-                Console.WriteLine("Calcular a menor distancia de todos para todos");
+                Console.WriteLine(@"
+                Escolha uma ação:
+                ============================================
+                 (1)  Adicionar uma aresta                (2)  Remover uma aresta
+                 (3)  Adicionar rótulo ao vértice         (4)  Adicionar peso ao vértice
+                 (5)  Adicionar rótulo à aresta           (6)  Adicionar peso à aresta
+                 (7)  Verificar adjacência entre vértices (8)  Listar vizinhança do vértice
+                 (9)  Obter grau do vértice               (10) Verificar se o grafo é regular
+                 (11) Verificar se o grafo é conexo       (12) Verificar se o grafo é acíclico
+                 (13) Verificar se o grafo é Euleriano    (14) Realizar busca em profundidade (DFS)
+                 (15) Realizar busca em largura (BFS)     (16) Calcular a menor distância de uma origem
+                 (17) Calcular a menor distância entre todos os pares
+                ============================================
+                Digite sua escolha: ");
+
 
                 string acao = Console.ReadLine();
                 switch (acao)
