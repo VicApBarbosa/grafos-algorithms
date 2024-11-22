@@ -76,6 +76,7 @@ namespace AlgoritmosGrafos
                         break;
 
                     case "9":
+                        ObterGrauVertice(grafo);
                         break;
                     default:
                         Console.WriteLine("Opção inválida.");
@@ -187,6 +188,23 @@ namespace AlgoritmosGrafos
             {
                 Console.WriteLine("Aresta não encontrada.");
             }
+        }
+
+        static void ObterGrauVertice(Grafo grafo)
+        {
+            Console.Write("Digite o id do Vértice: ");
+
+            bool sucesso = int.TryParse(Console.ReadLine(), out int id);
+            if (sucesso)
+            {
+                int grauVertice = grafo.ObterGrauVertice(id);
+                if (grauVertice < 0)
+                    Console.WriteLine("Tente outro id.");
+                else
+                    Console.WriteLine($"O grafo possui {grauVertice} grau(s)");
+            }
+            else
+                Console.WriteLine("Valor inválido, tente outro id.");
         }
     }
 }

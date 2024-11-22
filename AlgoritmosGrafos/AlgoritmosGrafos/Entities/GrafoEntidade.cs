@@ -125,9 +125,10 @@ namespace ModelosDeGrafos.Modelos
         {
             if (!ListaDeVertices.ContainsKey(idVertice))
             {
-                throw new ArgumentException("O vértice informado não existe no grafo.");
+                Console.WriteLine("O vértice informado não existe no grafo.");
+                return -1;
             }
-
+               
             // Para grafos direcionados:
             int grauSaida = listaAdjacencia[idVertice].Count;
             int grauEntrada = 0;
@@ -144,5 +145,6 @@ namespace ModelosDeGrafos.Modelos
             return grauSaida + grauEntrada;
         }
     }
+
 }
 
