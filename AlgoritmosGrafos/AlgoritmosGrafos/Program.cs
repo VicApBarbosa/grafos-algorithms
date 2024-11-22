@@ -78,6 +78,14 @@ namespace AlgoritmosGrafos
                     case "9":
                         ObterGrauVertice(grafo);
                         break;
+                    case "11":
+                        bool conexo = grafo.VerificarGrafoConexo();
+                        Console.WriteLine(conexo ? "O grafo é conexo." : "O grafo não é conexo.");
+                        break;
+                    case "12": 
+                        bool aciclico = grafo.VerificarGrafoAciclico();
+                        Console.WriteLine(aciclico ? "O grafo é acíclico." : "O grafo não é acíclico.");
+                        break;
                     default:
                         Console.WriteLine("Opção inválida.");
                         break;

@@ -120,7 +120,6 @@ namespace ModelosDeGrafos.Modelos
             }
         }
 
-
         public int ObterGrauVertice(int idVertice)
         {
             if (!ListaDeVertices.ContainsKey(idVertice))
@@ -144,7 +143,72 @@ namespace ModelosDeGrafos.Modelos
             // Retorna o grau total para grafos não direcionados:
             return grauSaida + grauEntrada;
         }
-    }
 
+        public bool VerificarGrafoConexo()
+        {
+            if (ListaDeVertices.Count == 0)
+                return false;
+
+            // Inicializa um array para verificar os vértices visitados
+            var visitados = new HashSet<int>();
+            int verticeInicial = ListaDeVertices.Keys.First();
+
+            // Realiza uma busca em profundidade a partir do primeiro vértice
+            DFS(verticeInicial, visitados);
+
+            // Verifica se todos os vértices foram visitados
+            return visitados.Count == ListaDeVertices.Count;
+        }
+
+        private void DFS(int verticeAtual, HashSet<int> visitados)
+        {
+            visitados.Add(verticeAtual);
+
+            foreach (var vizinho in listaAdjacencia[verticeAtual])
+            {
+                if (!visitados.Contains(vizinho))
+                {
+                    DFS(vizinho, visitados);
+                }
+            }
+        }
+
+        public bool VerificarGrafoAciclico()
+        {
+            var visitados = new HashSet<int>();
+
+            foreach (var vertice in ListaDeVertices.Keys)
+            {
+                if (!visitados.Contains(vertice))
+                {
+                    // Se encontrar um ciclo, o grafo não é acíclico
+                    if (TemCiclo(vertice, -1, visitados))
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        private bool TemCiclo(int verticeAtual, int pai, HashSet<int> visitados)
+        {
+            visitados.Add(verticeAtual);
+
+            foreach (var vizinho in listaAdjacencia[verticeAtual])
+            {
+                if (!visitados.Contains(vizinho))
+                {
+                    if (TemCiclo(vizinho, verticeAtual, visitados))
+                        return true;
+                }
+                else if (vizinho != pai)
+                {
+                    // Se o vizinho já foi visitado e não é o pai, temos um ciclo
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
 }
 
