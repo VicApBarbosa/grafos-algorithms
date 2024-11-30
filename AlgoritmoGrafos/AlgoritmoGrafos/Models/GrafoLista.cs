@@ -106,4 +106,30 @@ public class GrafoLista
             }
         }
     }
+
+    public void RemoverArestaPorRotulo(string rotulo)
+    {
+        bool arestaRemovida = false;
+
+        foreach (var vertice in listaAdjacencia)
+        {
+            var aresta = vertice.Value.FirstOrDefault(a => a.Rotulo == rotulo);
+            if (aresta != null)
+            {
+                vertice.Value.Remove(aresta);
+                listaAdjacencia[aresta.VerticeDestino].RemoveAll(a => a.VerticeDestino == vertice.Key && a.Rotulo == rotulo); // Remove a conexão reversa
+                arestaRemovida = true;
+            }
+        }
+
+        if (arestaRemovida)
+        {
+            Console.WriteLine($"Aresta com rótulo '{rotulo}' removida com sucesso!");
+        }
+        else
+        {
+            Console.WriteLine($"Erro: Nenhuma aresta com o rótulo '{rotulo}' foi encontrada.");
+        }
+    }
+
 }

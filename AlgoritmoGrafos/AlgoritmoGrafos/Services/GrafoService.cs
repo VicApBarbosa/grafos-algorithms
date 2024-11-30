@@ -36,6 +36,9 @@ public class GrafoService
                 case 3:
                     MenuExibirGrafo();
                     break;
+                case 4:
+                    RemoverAresta();
+                    break;
                 case 0:
                     Console.WriteLine("Saindo...");
                     return;
@@ -97,13 +100,11 @@ public class GrafoService
 
     private int ObterIdVertice(string input)
     {
-        // Tenta interpretar o input como ID
         if (int.TryParse(input, out int id))
         {
             return id;
         }
 
-        // Se não for ID, tenta buscar pelo rótulo
         int? verticeIdMatriz = grafoMatriz.ObterIdPorRotulo(input);
         if (verticeIdMatriz.HasValue)
         {
@@ -112,6 +113,16 @@ public class GrafoService
 
         return -1; // Retorna -1 se não encontrar o vértice
     }
+
+    private void RemoverAresta()
+    {
+        Console.Write("Digite o rótulo da aresta a ser removida: ");
+        string rotulo = Console.ReadLine() ?? "";
+
+        grafoMatriz.RemoverArestaPorRotulo(rotulo);
+        grafoLista.RemoverArestaPorRotulo(rotulo);
+    }
+
 
     private void MenuExibirGrafo()
     {

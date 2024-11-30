@@ -66,6 +66,36 @@ public class GrafoMatriz
         return null; 
     }
 
+    public void RemoverArestaPorRotulo(string rotulo)
+    {
+        bool arestaRemovida = false;
+
+        for (int i = 0; i < quantidadeVertices; i++)
+        {
+            for (int j = 0; j < quantidadeVertices; j++)
+            {
+                if (rotulosArestas[i, j] == rotulo)
+                {
+                    matrizAdjacencia[i, j] = 0;
+                    matrizAdjacencia[j, i] = 0;
+                    rotulosArestas[i, j] = null;
+                    rotulosArestas[j, i] = null;
+                    arestaRemovida = true;
+                }
+            }
+        }
+
+        if (arestaRemovida)
+        {
+            Console.WriteLine($"Aresta com rótulo '{rotulo}' removida com sucesso!");
+        }
+        else
+        {
+            Console.WriteLine($"Erro: Nenhuma aresta com o rótulo '{rotulo}' foi encontrada.");
+        }
+    }
+
+
     public void ExibirMatriz()
     {
         Console.WriteLine("\nMatriz de Adjacência:");
