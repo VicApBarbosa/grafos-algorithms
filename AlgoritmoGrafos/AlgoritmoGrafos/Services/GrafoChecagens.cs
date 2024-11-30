@@ -160,7 +160,7 @@ public class GrafoChecagens
 
             foreach (var vizinho in listaAdjacencia[atual])
             {
-                int peso = 1; // Adapte para suportar pesos reais se necessário
+                int peso = 1; 
                 int novaDistancia = distancias[atual] + peso;
 
                 if (novaDistancia < distancias[vizinho])
