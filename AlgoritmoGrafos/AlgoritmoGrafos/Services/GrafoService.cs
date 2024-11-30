@@ -139,8 +139,10 @@ public class GrafoService
         Console.WriteLine("3. Verificar se o grafo é regular");
         Console.WriteLine("4. Verificar se o grafo é Euleriano");
         Console.WriteLine("5. Verificar se o grafo é completo");
-        Console.WriteLine("6. Calcular menor distância de uma origem para todos (Dijkstra)");
-        Console.WriteLine("7. Calcular menor distância de todos para todos (Floyd-Warshall)");
+        Console.WriteLine("6. Verificar adjacência entre dois vértices");
+        Console.WriteLine("7. Obter vizinhança de um vértice");
+        Console.WriteLine("8. Calcular menor distância de uma origem para todos (Dijkstra)");
+        Console.WriteLine("9. Calcular menor distância de todos para todos (Floyd-Warshall)");
         Console.WriteLine("0. Voltar ao Menu Principal");
         Console.Write("Escolha uma opção: ");
         var opcao = int.Parse(Console.ReadLine() ?? "0");
@@ -162,7 +164,47 @@ public class GrafoService
             case 5:
                 Console.WriteLine(checagens.EhCompleto() ? "O grafo é completo." : "O grafo não é completo.");
                 break;
-            case 6:
+            case 6: // Verificar adjacência entre dois vértices
+                Console.Write("Digite o primeiro vértice (ID ou Rótulo): ");
+                string entrada1 = Console.ReadLine() ?? "";
+                int vertice1 = ObterIdVertice(entrada1);
+
+                Console.Write("Digite o segundo vértice (ID ou Rótulo): ");
+                string entrada2 = Console.ReadLine() ?? "";
+                int vertice2 = ObterIdVertice(entrada2);
+
+                if (vertice1 == -1 || vertice2 == -1)
+                {
+                    Console.WriteLine("Erro: Um ou ambos os vértices não foram encontrados.");
+                }
+                else
+                {
+                    Console.WriteLine(checagens.SaoAdjacentes(vertice1, vertice2)
+                        ? $"Os vértices {entrada1} e {entrada2} são adjacentes."
+                        : $"Os vértices {entrada1} e {entrada2} não são adjacentes.");
+                }
+                break;
+            case 7: // Obter vizinhança de um vértice
+                Console.Write("Digite o vértice (ID ou Rótulo): ");
+                string entradaVizinho = Console.ReadLine() ?? "";
+                int vertice = ObterIdVertice(entradaVizinho);
+
+                if (vertice == -1)
+                {
+                    Console.WriteLine($"Erro: Vértice '{entradaVizinho}' não encontrado.");
+                }
+                else
+                {
+                    var vizinhos = checagens.ObterVizinhos(vertice);
+                    Console.WriteLine($"Vizinhos do vértice {entradaVizinho}:");
+                    foreach (var vizinho in vizinhos)
+                    {
+                        string rotuloVizinho = checagens.ObterRotuloVertice(vizinho);
+                        Console.WriteLine($"- {rotuloVizinho} (ID: {vizinho})");
+                    }
+                }
+                break;
+            case 8:
                 Console.Write("Digite o vértice de origem (ID ou Rótulo): ");
                 string entradaOrigem = Console.ReadLine() ?? "";
                 int origemDijkstra = ObterIdVertice(entradaOrigem);
@@ -181,7 +223,7 @@ public class GrafoService
                     Console.WriteLine($"Para {rotuloDestino} (ID: {distancia.Key}): {distancia.Value}");
                 }
                 break;
-            case 7:
+            case 9:
                 var matrizDistancias = checagens.FloydWarshall();
                 Console.WriteLine("Menores distâncias entre todos os pares de vértices:");
                 for (int i = 0; i < matrizDistancias.GetLength(0); i++)

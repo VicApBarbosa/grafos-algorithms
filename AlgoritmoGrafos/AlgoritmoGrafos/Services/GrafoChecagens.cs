@@ -259,4 +259,33 @@ public class GrafoChecagens
         return true; // Todos os vértices têm o número correto de conexões
     }
 
+    /// <summary>
+    /// Verifica se dois vértices são adjacentes (diretamente conectados).
+    /// </summary>
+    /// <param name="vertice1">ID do primeiro vértice.</param>
+    /// <param name="vertice2">ID do segundo vértice.</param>
+    /// <returns>True se os vértices forem adjacentes, caso contrário False.</returns>
+    public bool SaoAdjacentes(int vertice1, int vertice2)
+    {
+        if (listaAdjacencia.ContainsKey(vertice1) && listaAdjacencia.ContainsKey(vertice2))
+        {
+            return listaAdjacencia[vertice1].Contains(vertice2);
+        }
+        return false; // Pelo menos um dos vértices não existe
+    }
+
+    /// <summary>
+    /// Retorna os vizinhos de um vértice.
+    /// </summary>
+    /// <param name="vertice">ID do vértice.</param>
+    /// <returns>Lista de IDs dos vértices vizinhos.</returns>
+    public List<int> ObterVizinhos(int vertice)
+    {
+        if (listaAdjacencia.ContainsKey(vertice))
+        {
+            return listaAdjacencia[vertice];
+        }
+        return new List<int>(); // Retorna uma lista vazia se o vértice não existir
+    }
+
 }
