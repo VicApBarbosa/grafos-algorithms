@@ -237,7 +237,7 @@ public class GrafoService
                     for (int j = 0; j < matrizDistancias.GetLength(1); j++)
                     {
                         if (matrizDistancias[i, j] == int.MaxValue)
-                            Console.Write("∞ ");
+                            Console.Write("n ");
                         else
                             Console.Write($"{matrizDistancias[i, j]} ");
                     }
@@ -245,13 +245,17 @@ public class GrafoService
                 }
                 break;
             case 10:
-                Console.Write("Digite o vértice (ID): ");
-                if (int.TryParse(Console.ReadLine(), out vertice))
+                Console.Write("Digite o vértice de origem (ID ou Rótulo): ");
+                string verticeRotulo = Console.ReadLine() ?? "";
+                int verticeId = ObterIdVertice(verticeRotulo);
+
+
+                if (verticeId >= 0)
                 {
                     try
                     {
-                        int grau = CalcularGrauVertice(vertice);
-                        Console.WriteLine($"O grau do vértice {vertice} é: {grau}");
+                        int grau = CalcularGrauVertice(verticeId);
+                        Console.WriteLine($"O grau do vértice de ID: {verticeId} e rotulo: {verticeRotulo ?? ""} é: {grau}");
                     }
                     catch (ArgumentException ex)
                     {
@@ -260,7 +264,7 @@ public class GrafoService
                 }
                 else
                 {
-                    Console.WriteLine("Entrada inválida. Por favor, insira um número.");
+                    Console.WriteLine("Entrada inválida. Por favor, insira um vértice válido.");
                 }
                 break;
             case 0:

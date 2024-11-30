@@ -98,12 +98,14 @@ public class GrafoMatriz
 
     public void ExibirMatriz()
     {
-        Console.WriteLine("\nMatriz de Adjacência:");
+        Console.WriteLine("\nMatriz de Adjacência (0 para ausência, 1 para adjacência):");
+
         for (int i = 0; i < quantidadeVertices; i++)
         {
             for (int j = 0; j < quantidadeVertices; j++)
             {
-                Console.Write($"{matrizAdjacencia[i, j]}({rotulosArestas[i, j] ?? "-"}) ");
+                // Exibe 1 se há uma aresta, caso contrário 0
+                Console.Write($"{(matrizAdjacencia[i, j] != 0 ? 1 : 0)} ");
             }
             Console.WriteLine();
         }
@@ -111,9 +113,10 @@ public class GrafoMatriz
         Console.WriteLine("\nVértices:");
         foreach (var vertice in vertices)
         {
-            Console.WriteLine(vertice);
+            Console.WriteLine($"ID: {vertice.Id}, Rótulo: {vertice.Rotulo}, Peso: {vertice.Peso}");
         }
     }
+
 
     public int CalcularGrau(int vertice)
     {

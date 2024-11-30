@@ -146,7 +146,7 @@ public class GrafoChecagens
         // Inicializa as distâncias com infinito, exceto a origem
         foreach (var vertice in listaAdjacencia.Keys)
         {
-            distancias[vertice] = int.MaxValue;
+            distancias[vertice] = int.MaxValue; //alterar
         }
         distancias[origem] = 0;
         fila.Enqueue(origem, 0);
@@ -168,6 +168,14 @@ public class GrafoChecagens
                     distancias[vizinho] = novaDistancia;
                     fila.Enqueue(vizinho, novaDistancia);
                 }
+            }
+        }
+
+        foreach (var vertice in distancias.Keys.ToList())
+        {
+            if (distancias[vertice] == int.MaxValue)
+            {
+                distancias[vertice] = -1;
             }
         }
 
