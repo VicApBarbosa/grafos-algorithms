@@ -15,6 +15,7 @@ public class GrafoMatriz
     {
         quantidadeVertices++;
         var novaMatriz = new int[quantidadeVertices, quantidadeVertices];
+
         for (int i = 0; i < quantidadeVertices - 1; i++)
             for (int j = 0; j < quantidadeVertices - 1; j++)
                 novaMatriz[i, j] = matrizAdjacencia[i, j];
@@ -25,9 +26,14 @@ public class GrafoMatriz
     public void AdicionarAresta(int origem, int destino, int peso = 1)
     {
         if (origem < quantidadeVertices && destino < quantidadeVertices)
+        {
             matrizAdjacencia[origem, destino] = peso;
+            matrizAdjacencia[destino, origem] = peso; 
+        }
         else
+        {
             Console.WriteLine("Erro: Um ou ambos os vértices não existem.");
+        }
     }
 
     public void ExibirMatriz()

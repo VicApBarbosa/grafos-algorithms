@@ -20,6 +20,7 @@ public class GrafoLista
         if (listaAdjacencia.ContainsKey(origem) && listaAdjacencia.ContainsKey(destino))
         {
             listaAdjacencia[origem].Add(new Aresta(origem, destino, peso));
+            listaAdjacencia[destino].Add(new Aresta(destino, origem, peso)); 
         }
         else
         {
@@ -32,12 +33,21 @@ public class GrafoLista
         Console.WriteLine("\nLista de Adjacência:");
         foreach (var vertice in listaAdjacencia)
         {
-            Console.Write($"Vertice {vertice.Key}: ");
+            Console.Write($"Vértice {vertice.Key}:");
+
             foreach (var aresta in vertice.Value)
             {
                 Console.Write($" -> {aresta.VerticeDestino} (peso: {aresta.Peso})");
             }
-            Console.WriteLine();
+
+            if (listaAdjacencia[vertice.Key].Count == 0)
+            {
+                Console.WriteLine(" Não possui vizinhos.");
+            }
+            else
+            {
+                Console.WriteLine();
+            }
         }
     }
 }
