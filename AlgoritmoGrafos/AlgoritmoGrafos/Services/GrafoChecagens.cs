@@ -238,5 +238,25 @@ public class GrafoChecagens
         return distancias;
     }
 
+    /// <summary>
+    /// Verifica se o grafo é completo.
+    /// </summary>
+    /// <returns>True se o grafo for completo, caso contrário False.</returns>
+    public bool EhCompleto()
+    {
+        int n = listaAdjacencia.Count; // Número de vértices
+
+        // Um grafo completo deve ter n*(n-1)/2 arestas para grafos não direcionados
+        foreach (var vertice in listaAdjacencia)
+        {
+            // Cada vértice deve estar conectado a todos os outros
+            if (vertice.Value.Count != n - 1)
+            {
+                return false; // Encontrou um vértice que não se conecta a todos
+            }
+        }
+
+        return true; // Todos os vértices têm o número correto de conexões
+    }
 
 }

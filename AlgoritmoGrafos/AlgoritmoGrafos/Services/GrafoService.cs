@@ -131,16 +131,17 @@ public class GrafoService
 
     private void ExecutarChecagens()
     {
+        
         var checagens = new GrafoChecagens(grafoLista.ObterListaAdjacencia(), grafoLista.ObterRotulosVertices());
-
         Console.WriteLine("\n--- Checagens no Grafo ---");
         Console.WriteLine("1. Verificar se o grafo é conexo");
         Console.WriteLine("2. Verificar se o grafo é acíclico");
         Console.WriteLine("3. Verificar se o grafo é regular");
         Console.WriteLine("4. Verificar se o grafo é Euleriano");
-        Console.WriteLine("5. Calcular menor distância de uma origem para todos (Dijkstra)");
-        Console.WriteLine("6. Calcular menor distância de todos para todos (Floyd-Warshall)");
-        Console.WriteLine("0. Voltar");
+        Console.WriteLine("5. Verificar se o grafo é completo");
+        Console.WriteLine("6. Calcular menor distância de uma origem para todos (Dijkstra)");
+        Console.WriteLine("7. Calcular menor distância de todos para todos (Floyd-Warshall)");
+        Console.WriteLine("0. Voltar ao Menu Principal");
         Console.Write("Escolha uma opção: ");
         var opcao = int.Parse(Console.ReadLine() ?? "0");
 
@@ -159,6 +160,9 @@ public class GrafoService
                 Console.WriteLine(checagens.EhEuleriano() ? "O grafo é Euleriano." : "O grafo não é Euleriano.");
                 break;
             case 5:
+                Console.WriteLine(checagens.EhCompleto() ? "O grafo é completo." : "O grafo não é completo.");
+                break;
+            case 6:
                 Console.Write("Digite o vértice de origem (ID ou Rótulo): ");
                 string entradaOrigem = Console.ReadLine() ?? "";
                 int origemDijkstra = ObterIdVertice(entradaOrigem);
@@ -177,8 +181,7 @@ public class GrafoService
                     Console.WriteLine($"Para {rotuloDestino} (ID: {distancia.Key}): {distancia.Value}");
                 }
                 break;
-
-            case 6:
+            case 7:
                 var matrizDistancias = checagens.FloydWarshall();
                 Console.WriteLine("Menores distâncias entre todos os pares de vértices:");
                 for (int i = 0; i < matrizDistancias.GetLength(0); i++)
