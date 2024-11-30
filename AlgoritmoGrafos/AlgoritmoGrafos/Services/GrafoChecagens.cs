@@ -296,4 +296,79 @@ public class GrafoChecagens
         return new List<int>(); // Retorna uma lista vazia se o vértice não existir
     }
 
+    /// <summary>
+    /// Realiza uma busca em profundidade (DFS) a partir de um vértice de origem.
+    /// </summary>
+    /// <param name="verticeOrigem">ID do vértice de origem.</param>
+    /// <returns>Lista de IDs dos vértices na ordem em que foram visitados.</returns>
+    public List<int> BuscaEmProfundidade(int verticeOrigem)
+    {
+        var visitados = new HashSet<int>();
+        var resultado = new List<int>();
+        DFSRecursivo(verticeOrigem, visitados, resultado);
+        return resultado;
+    }
+
+    /// <summary>
+    /// Método recursivo auxiliar para a DFS.
+    /// </summary>
+    /// <param name="vertice">ID do vértice atual.</param>
+    /// <param name="visitados">Conjunto de vértices visitados.</param>
+    /// <param name="resultado">Lista de vértices visitados na ordem da DFS.</param>
+    private void DFSRecursivo(int vertice, HashSet<int> visitados, List<int> resultado)
+    {
+        if (visitados.Contains(vertice))
+            return;
+
+        visitados.Add(vertice);
+        resultado.Add(vertice);
+
+        if (listaAdjacencia.ContainsKey(vertice))
+        {
+            foreach (var vizinho in listaAdjacencia[vertice])
+            {
+                DFSRecursivo(vizinho, visitados, resultado);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Realiza a busca em largura (BFS) a partir de um vértice de origem.
+    /// </summary>
+    /// <param name="verticeOrigem">ID do vértice de origem.</param>
+    /// <returns>Lista de vértices na ordem em que foram visitados.</returns>
+    public List<int> BuscaEmLargura(int verticeOrigem)
+    {
+        var visitados = new HashSet<int>();
+        var fila = new Queue<int>();
+        var ordemVisita = new List<int>();
+
+        if (!listaAdjacencia.ContainsKey(verticeOrigem))
+        {
+            throw new ArgumentException("O vértice de origem não existe no grafo.");
+        }
+
+        // Inicia a busca pelo vértice de origem
+        fila.Enqueue(verticeOrigem);
+        visitados.Add(verticeOrigem);
+
+        while (fila.Count > 0)
+        {
+            int atual = fila.Dequeue();
+            ordemVisita.Add(atual);
+
+            // Percorre os vizinhos do vértice atual
+            foreach (var vizinho in listaAdjacencia[atual])
+            {
+                if (!visitados.Contains(vizinho))
+                {
+                    fila.Enqueue(vizinho);
+                    visitados.Add(vizinho);
+                }
+            }
+        }
+
+        return ordemVisita;
+    }
+
 }

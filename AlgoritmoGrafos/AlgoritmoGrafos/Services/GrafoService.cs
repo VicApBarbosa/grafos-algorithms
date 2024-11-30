@@ -149,6 +149,8 @@ public class GrafoService
         Console.WriteLine("8. Calcular menor distância de uma origem para todos (Dijkstra)");
         Console.WriteLine("9. Calcular menor distância de todos para todos (Floyd-Warshall)");
         Console.WriteLine("10. Calcular grau do vértice");
+        Console.WriteLine("11. Realizar busca em profundidade");
+        Console.WriteLine("12. Realizar busca em largura");
         Console.WriteLine("0. Voltar ao Menu Principal");
         Console.Write("Escolha uma opção: ");
         var opcao = int.Parse(Console.ReadLine() ?? "0");
@@ -267,6 +269,52 @@ public class GrafoService
                     Console.WriteLine("Entrada inválida. Por favor, insira um vértice válido.");
                 }
                 break;
+            case 11: // Busca em Profundidade (DFS)
+                Console.Write("Digite o vértice de origem (ID ou Rótulo): ");
+                string entradaDFS = Console.ReadLine() ?? "";
+                int verticeDFS = ObterIdVertice(entradaDFS);
+
+                if (verticeDFS == -1)
+                {
+                    Console.WriteLine($"Erro: Vértice '{entradaDFS}' não encontrado.");
+                }
+                else
+                {
+                    var resultadoDFS = checagens.BuscaEmProfundidade(verticeDFS);
+                    Console.WriteLine($"Busca em profundidade a partir do vértice '{entradaDFS}':");
+                    foreach (var id in resultadoDFS)
+                    {
+                        string rotulo = checagens.ObterRotuloVertice(id);
+                        Console.WriteLine($"- {rotulo} (ID: {id})");
+                    }
+                }
+                break;
+            case 12: // Busca em Largura
+                Console.Write("Digite o vértice de origem (ID ou Rótulo): ");
+                entradaOrigem = Console.ReadLine() ?? "";
+                int origemBFS = ObterIdVertice(entradaOrigem);
+
+                if (origemBFS == -1)
+                {
+                    Console.WriteLine($"Erro: Vértice '{entradaOrigem}' não encontrado.");
+                    break;
+                }
+
+                try
+                {
+                    var ordemVisita = checagens.BuscaEmLargura(origemBFS);
+                    Console.WriteLine("Ordem de visita na BFS:");
+                    foreach (var verticeVisita in ordemVisita)
+                    {
+                        string rotulo = checagens.ObterRotuloVertice(verticeVisita);
+                        Console.WriteLine($"- {rotulo} (ID: {verticeVisita})");
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"Erro: {ex.Message}");
+                }
+                break;
             case 0:
                 return;
             default:
@@ -283,6 +331,7 @@ public class GrafoService
             Console.WriteLine("\n--- Exibir Grafo ---");
             Console.WriteLine("1. Exibir por Matriz de Adjacência");
             Console.WriteLine("2. Exibir por Lista de Adjacência");
+            Console.WriteLine("3. Gerar arquivo DOT para visualização (Graphviz)");
             Console.WriteLine("0. Voltar ao Menu Principal");
             Console.Write("Escolha uma opção: ");
             var opcao = int.Parse(Console.ReadLine() ?? "0");
@@ -295,6 +344,9 @@ public class GrafoService
                 case 2:
                     grafoLista.ExibirLista();
                     break;
+                case 3:
+                    GerarArquivoDot();
+                    break;
                 case 0:
                     return;
                 default:
@@ -303,4 +355,42 @@ public class GrafoService
             }
         }
     }
+
+    private void GerarArquivoDot()
+    {
+        string caminhoArquivoDot = @"C:\Users\sabrinaf\Desktop\grafos-algorithms\AlgoritmoGrafos\visualizar-grafos\grafo.dot";
+
+        using (var writer = new StreamWriter(caminhoArquivoDot))
+        {
+            writer.WriteLine("graph G {");
+
+            // Adicionar vértices ao arquivo DOT
+            foreach (var vertice in grafoLista.ObterListaAdjacencia())
+            {
+                string rotuloVertice = grafoLista.ObterRotulosVertices()[vertice.Key];
+                writer.WriteLine($"  {vertice.Key} [label=\"{rotuloVertice}\"];");
+            }
+
+            // Adicionar arestas ao arquivo DOT
+            var adicionadas = new HashSet<string>();
+            foreach (var vertice in grafoLista.ObterListaAdjacencia())
+            {
+                foreach (var vizinho in vertice.Value)
+                {
+                    string aresta = $"{Math.Min(vertice.Key, vizinho)}-{Math.Max(vertice.Key, vizinho)}";
+
+                    if (!adicionadas.Contains(aresta))
+                    {
+                        writer.WriteLine($"  {vertice.Key} -- {vizinho};");
+                        adicionadas.Add(aresta);
+                    }
+                }
+            }
+
+            writer.WriteLine("}");
+        }
+
+        Console.WriteLine($"Arquivo DOT gerado em: {caminhoArquivoDot}");
+    }
+
 }
