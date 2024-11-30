@@ -114,4 +114,19 @@ public class GrafoMatriz
             Console.WriteLine(vertice);
         }
     }
+
+    public int CalcularGrau(int vertice)
+    {
+        if (vertice < 0 || vertice >= quantidadeVertices)
+            throw new ArgumentException("Vértice inválido!");
+
+        int grau = 0;
+
+        for (int i = 0; i < quantidadeVertices; i++)
+        {
+            if (matrizAdjacencia[vertice, i] != 0) grau++;
+        }
+
+        return grau;
+    }
 }

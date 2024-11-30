@@ -86,6 +86,7 @@ public class GrafoLista
         }
         return null;
     }
+
     public Dictionary<int, string> ObterRotulosVertices()
     {
         var rotulos = new Dictionary<int, string>();

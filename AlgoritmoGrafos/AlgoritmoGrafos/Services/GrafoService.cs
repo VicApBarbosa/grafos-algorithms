@@ -119,6 +119,11 @@ public class GrafoService
         return -1; // Retorna -1 se não encontrar o vértice
     }
 
+    public int CalcularGrauVertice(int vertice)
+    {
+        return grafoMatriz.CalcularGrau(vertice);
+    }
+
 
     private void RemoverAresta()
     {
@@ -143,6 +148,7 @@ public class GrafoService
         Console.WriteLine("7. Obter vizinhança de um vértice");
         Console.WriteLine("8. Calcular menor distância de uma origem para todos (Dijkstra)");
         Console.WriteLine("9. Calcular menor distância de todos para todos (Floyd-Warshall)");
+        Console.WriteLine("10. Calcular grau do vértice");
         Console.WriteLine("0. Voltar ao Menu Principal");
         Console.Write("Escolha uma opção: ");
         var opcao = int.Parse(Console.ReadLine() ?? "0");
@@ -236,6 +242,25 @@ public class GrafoService
                             Console.Write($"{matrizDistancias[i, j]} ");
                     }
                     Console.WriteLine();
+                }
+                break;
+            case 10:
+                Console.Write("Digite o vértice (ID): ");
+                if (int.TryParse(Console.ReadLine(), out vertice))
+                {
+                    try
+                    {
+                        int grau = CalcularGrauVertice(vertice);
+                        Console.WriteLine($"O grau do vértice {vertice} é: {grau}");
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine($"Erro: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Entrada inválida. Por favor, insira um número.");
                 }
                 break;
             case 0:
