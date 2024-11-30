@@ -48,24 +48,69 @@ public class GrafoService
 
     private void AdicionarVertice()
     {
-        grafoMatriz.AdicionarVertice();
-        grafoLista.AdicionarVertice();
-        Console.WriteLine("Vértice adicionado com sucesso!");
+        Console.Write("Digite o rótulo do vértice: ");
+        string rotulo = Console.ReadLine() ?? "";
+        Console.Write("Digite o peso do vértice (ou deixe vazio para 0): ");
+        string pesoInput = Console.ReadLine() ?? "0";
+        int peso = int.TryParse(pesoInput, out int resultado) ? resultado : 0;
+
+        grafoMatriz.AdicionarVertice(rotulo, peso);
+        grafoLista.AdicionarVertice(rotulo, peso);
+
+        Console.WriteLine($"Vértice '{rotulo}' com peso {peso} adicionado com sucesso!");
     }
 
     private void AdicionarAresta()
     {
-        Console.Write("Origem: ");
-        int origem = int.Parse(Console.ReadLine() ?? "0");
-        Console.Write("Destino: ");
-        int destino = int.Parse(Console.ReadLine() ?? "0");
-        Console.Write("Peso: ");
-        int peso = int.Parse(Console.ReadLine() ?? "1");
+        Console.Write("Origem (ID ou Rótulo): ");
+        string origemInput = Console.ReadLine() ?? "";
+        int origem = ObterIdVertice(origemInput);
 
-        grafoMatriz.AdicionarAresta(origem, destino, peso);
-        grafoLista.AdicionarAresta(origem, destino, peso);
+        if (origem == -1)
+        {
+            Console.WriteLine($"Erro: Vértice '{origemInput}' não encontrado.");
+            return;
+        }
 
-        Console.WriteLine("Aresta adicionada com sucesso!");
+        Console.Write("Destino (ID ou Rótulo): ");
+        string destinoInput = Console.ReadLine() ?? "";
+        int destino = ObterIdVertice(destinoInput);
+
+        if (destino == -1)
+        {
+            Console.WriteLine($"Erro: Vértice '{destinoInput}' não encontrado.");
+            return;
+        }
+
+        Console.Write("Peso da aresta (ou deixe vazio para 1): ");
+        string pesoInput = Console.ReadLine() ?? "1";
+        int peso = int.TryParse(pesoInput, out int resultado) ? resultado : 1;
+
+        Console.Write("Rótulo da aresta (ou deixe vazio): ");
+        string rotulo = Console.ReadLine() ?? "";
+
+        grafoMatriz.AdicionarAresta(origem, destino, peso, rotulo);
+        grafoLista.AdicionarAresta(origem, destino, peso, rotulo);
+
+        Console.WriteLine($"Aresta '{rotulo}' de {origemInput} para {destinoInput} com peso {peso} adicionada com sucesso!");
+    }
+
+    private int ObterIdVertice(string input)
+    {
+        // Tenta interpretar o input como ID
+        if (int.TryParse(input, out int id))
+        {
+            return id;
+        }
+
+        // Se não for ID, tenta buscar pelo rótulo
+        int? verticeIdMatriz = grafoMatriz.ObterIdPorRotulo(input);
+        if (verticeIdMatriz.HasValue)
+        {
+            return verticeIdMatriz.Value;
+        }
+
+        return -1; // Retorna -1 se não encontrar o vértice
     }
 
     private void MenuExibirGrafo()
