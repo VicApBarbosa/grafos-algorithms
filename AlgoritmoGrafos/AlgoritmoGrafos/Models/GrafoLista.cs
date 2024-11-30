@@ -86,6 +86,16 @@ public class GrafoLista
         }
         return null;
     }
+    public Dictionary<int, string> ObterRotulosVertices()
+    {
+        var rotulos = new Dictionary<int, string>();
+        foreach (var vertice in vertices)
+        {
+            rotulos[vertice.Key] = vertice.Value.Rotulo;
+        }
+        return rotulos;
+    }
+
 
     public void ExibirLista()
     {
@@ -130,6 +140,22 @@ public class GrafoLista
         {
             Console.WriteLine($"Erro: Nenhuma aresta com o rótulo '{rotulo}' foi encontrada.");
         }
+    }
+
+    public Dictionary<int, List<int>> ObterListaAdjacencia()
+    {
+        var lista = new Dictionary<int, List<int>>();
+
+        foreach (var vertice in listaAdjacencia)
+        {
+            lista[vertice.Key] = new List<int>();
+            foreach (var aresta in vertice.Value)
+            {
+                lista[vertice.Key].Add(aresta.VerticeDestino);
+            }
+        }
+
+        return lista;
     }
 
 }
